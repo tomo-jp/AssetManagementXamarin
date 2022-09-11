@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:AssetManagementXamarin.Views"
+       Title="AssetManagementXamarin"
+       x:Class="AssetManagementXamarin.AppShell">
+
+    <!--
+        The overall app visual hierarchy is defined here, along with navigation.
+    
+        https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/
+    -->
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="Shell.ForegroundColor" Value="White" />
+                <Setter Property="Shell.TitleColor" Value="White" />
+                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+                <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="White"/>
+            </Style>
+            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
+            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <TabBar>
+        <Tab Title="簡易計算" Icon="icon_about.png">
+            <ShellContent Title="必要積立金計算" Route="CalcRequiredMoneyPage" ContentTemplate="{DataTemplate local:CalcRequiredMoneyPage}" />
+            <ShellContent Title="必要利回り計算" Route="CalcDividendRatePage" ContentTemplate="{DataTemplate local:CalcDividendRatePage}" />
+            <ShellContent Title="FIRE可能年度計算" Route="CalcGoalYearPage" ContentTemplate="{DataTemplate local:CalcGoalYearPage}" />
+        </Tab>
+        <Tab Title="詳細計算" Icon="icon_feed.png">
+            <ShellContent ContentTemplate="{DataTemplate local:DetailCalcPage}" />
+        </Tab>
+    </TabBar>
+</Shell>

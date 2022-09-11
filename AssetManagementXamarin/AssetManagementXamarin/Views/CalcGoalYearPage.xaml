@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AssetManagementXamarin.Views.CalcGoalYearPage"
+             xmlns:vm="clr-namespace:AssetManagementXamarin.ViewModels"
+             xmlns:ctrl="clr-namespace:AssetManagementXamarin.Controls"
+             xmlns:dg="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid" 
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <vm:CalcGoalYearViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <ScrollView>
+            <StackLayout Margin="15,15">
+                <ctrl:InputControl x:Name="InputStartYearControl" ItemText="投資を開始する年" UnitText="年"
+                                   InputValue="{Binding StartYear, Mode=TwoWay}"/>
+                <ctrl:InputControl x:Name="InputStartAssetControl" ItemText="投資開始時の資産" UnitText="万円"
+                                   InputValue="{Binding StartAsset, Mode=TwoWay}"/>
+                <ctrl:InputControl x:Name="InputAnualAffordableCashControl" ItemText="年間可能投資額" UnitText="万円"
+                                   InputValue="{Binding AnualAffordableCash, Mode=TwoWay}" HasError="{Binding HasErrorAnualAffordableCash, Mode=OneWay}"/>
+                <ctrl:InputControl x:Name="InputGoalDividendControl" ItemText="1年間で欲しい配当額" UnitText="万円"
+                                   InputValue="{Binding GoalDividend, Mode=TwoWay}" HasError="{Binding HasErrorGoalDividend, Mode=OneWay}"/>
+                <ctrl:InputControl x:Name="InputExpectedDividendRateControl" ItemText="想定年利" UnitText="%"
+                                   InputValue="{Binding ExpectedDividendRate, Mode=TwoWay}" HasError="{Binding HasErrorExpectedDividendRate, Mode=OneWay}"/>
+                <Grid Margin="0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="配当を再投資する"/>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding IsCompound, Mode=TwoWay}" BackgroundColor="White" Color="CornflowerBlue"/>
+                </Grid>
+                <Button Text="計算" Command="{Binding ButtonClickCommand}" WidthRequest="150" HeightRequest="70" Margin="0,10"
+                        HorizontalOptions="Center" VerticalOptions="Center" Background="LightBlue" TextColor="White"/>
+                <StackLayout x:Name="resultPanel" IsVisible="{Binding ResultVisibility, Mode=OneWay}" VerticalOptions="FillAndExpand" Orientation="Vertical">
+                    <Label Text="シミュレーション結果" HorizontalOptions="Center" Margin="0,8,0,0" FontSize="Title"/>
+                    <Label Text="FIRE可能年度計算" HorizontalTextAlignment="Center" Margin="0,10,0,3" FontSize="Medium"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <StackLayout.Resources>
+                            <Style TargetType="Label">
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                                <Setter Property="FontSize" Value="Large"/>
+                            </Style>
+                        </StackLayout.Resources>
+                        <Label Text="{Binding ResultValue, Mode=OneWay}"/>
+                        <Label Text="年"/>
+                    </StackLayout>
+                    <dg:DataGrid x:Name="ResultGrid" ItemsSource="{Binding GridData, Mode=OneWay}" RowHeight="50" HeaderHeight="50"
+                                 BorderColor="#CCCCCC" HeaderBackground="LightSkyBlue" HeaderTextColor="White" Margin="0,5,0,15" VerticalOptions="FillAndExpand">
+                        <dg:DataGrid.Columns>
+                            <dg:DataGridColumn Title="年" PropertyName="Year" Width="*"/>
+                            <dg:DataGridColumn Title="資産額(万円)" PropertyName="TotalAsset" Width="2*"/>
+                            <dg:DataGridColumn Title="年間配当(万円)" PropertyName="Dividend" Width="2*"/>
+                        </dg:DataGrid.Columns>
+                        <dg:DataGrid.RowsBackgroundColorPalette>
+                            <dg:PaletteCollection>
+                                <Color>#F2F2F2</Color>
+                                <Color>#FFFFFF</Color>
+                            </dg:PaletteCollection>
+                        </dg:DataGrid.RowsBackgroundColorPalette>
+                    </dg:DataGrid>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

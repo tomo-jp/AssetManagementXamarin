@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ctrl:BaseControl xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:b="clr-namespace:AssetManagementXamarin.Behaviors"
+                  xmlns:ctrl="clr-namespace:AssetManagementXamarin.Controls"
+                  x:Class="AssetManagementXamarin.Controls.InputControl"
+                  x:Name="_inputControl">
+    <ContentView.Content>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+            <Label Text="{Binding Path=ItemText, Source={x:Reference _inputControl}, Mode=OneWay}"
+                   Grid.Column="0" HorizontalTextAlignment="Left" VerticalTextAlignment="Center"/>
+            <Frame x:Name="frame" Grid.Column="1" Padding="5,0,0,0" Margin="0,3">
+                <Frame.BindingContext>
+                    <x:Reference Name="_inputControl"/>
+                </Frame.BindingContext>
+                <Frame.Triggers>
+                    <DataTrigger TargetType="Frame" Binding="{Binding HasError, Mode=OneWay}" Value="True">
+                        <Setter Property="BorderColor" Value="Red"/>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Frame" Binding="{Binding HasError, Mode=OneWay}" Value="False">
+                        <Setter Property="BorderColor" Value="SlateGray"/>
+                    </DataTrigger>
+                </Frame.Triggers>
+                <Entry x:Name="InputArea" Text="{Binding Path=InputValue, Source={x:Reference _inputControl}, Mode=TwoWay}"
+                   HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,10,0" Keyboard="Numeric">
+                    <Entry.Behaviors>
+                        <b:MinimumNumericEntryBehavior MinimumValue="0"/>
+                    </Entry.Behaviors>
+                </Entry>
+            </Frame>
+            <Label Text="{x:Binding Path=UnitText, Source={x:Reference _inputControl}, Mode=OneWay}"
+                   Grid.Column="2" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+        </Grid>
+    </ContentView.Content>
+</ctrl:BaseControl>
